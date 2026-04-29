@@ -1,0 +1,671 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   DESIGN TOKENS — ubah di sini untuk ganti semua warna sekaligus
+   ============================================================ */
+:root {
+    /* Background */
+    --color-bg: #ffffff; /* background utama body */
+    --color-bg-card: #f5f5f5; /* background card / section */
+    --color-bg-navbar: #ffffff; /* background navbar */
+    --color-bg-footer: #f5f5f5; /* background footer */
+
+    /* Text */
+    --color-text-primary: #111111; /* judul, heading utama */
+    --color-text-secondary: #555555; /* deskripsi, body text kecil */
+    --color-text-muted: #999999; /* label kecil, placeholder, opacity hint */
+
+    /* Accent / Brand */
+    --color-accent: #111111; /* tombol, link aktif, badge */
+    --color-accent-hover: #333333; /* hover state accent */
+    --color-accent-text: #ffffff; /* teks di atas warna accent */
+
+    /* Border */
+    --color-border: #e5e5e5;
+}
+
+/* ============================================================
+   DARK MODE TOKENS
+   ============================================================ */
+html.dark {
+    /* Background */
+    --color-bg: #141414;
+    --color-bg-card: #1e1e1e;
+    --color-bg-navbar: #141414;
+    --color-bg-footer: #1e1e1e;
+
+    /* Text */
+    --color-text-primary: #f0f0f0;
+    --color-text-secondary: #a0a0a0;
+    --color-text-muted: #666666;
+
+    /* Accent / Brand */
+    --color-accent: #e8e8e8;
+    --color-accent-hover: #ffffff;
+    --color-accent-text: #111111;
+
+    /* Border */
+    --color-border: #2e2e2e;
+
+    /* Icon images — invert dark icons so they show on dark backgrounds */
+    --icon-img-filter: invert(1) brightness(0.85);
+}
+
+/* ============================================================
+   BASE STYLES — di luar @layer agar prioritas lebih tinggi dari Tailwind reset
+   ============================================================ */
+body {
+    background-color: var(--color-bg) !important;
+    color: var(--color-text-primary);
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--color-text-primary);
+}
+
+/* Teks secondary — paragraf deskripsi, body kecil */
+p,
+li,
+label,
+td,
+th {
+    color: var(--color-text-secondary);
+}
+
+@layer base {
+    /* Input focus */
+    input:focus,
+    textarea:focus,
+    select:focus {
+        outline: none !important;
+        box-shadow: 0 0 0 2px var(--color-accent) !important;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+        accent-color: var(--color-accent);
+    }
+
+    input[type="radio"]:focus,
+    input[type="checkbox"]:focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+        outline: 2px solid var(--color-accent) !important;
+        outline-offset: 2px;
+    }
+}
+
+/* ============================================================
+   COMPONENT CLASSES — pakai di blade dengan class="..."
+   ============================================================ */
+@layer components {
+    /* Navbar — transparan saat di atas */
+    .c-navbar {
+        background-color: transparent;
+        border-bottom: 1px solid transparent;
+        transition:
+            background-color 0.4s ease,
+            border-color 0.4s ease,
+            backdrop-filter 0.4s ease,
+            box-shadow 0.4s ease;
+    }
+
+    /* Navbar — white glassmorphism setelah scroll */
+    .c-navbar.scrolled {
+        background-color: rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Dark mode navbar */
+    html.dark .c-navbar.scrolled {
+        background-color: rgba(20, 20, 20, 0.80);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Mobile menu dark */
+    html.dark #mobile-menu {
+        background-color: rgba(20, 20, 20, 0.92) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+
+    /* Theme toggle button */
+    .c-theme-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        color: var(--color-text-secondary);
+        transition: color 0.2s ease, background 0.2s ease;
+        flex-shrink: 0;
+    }
+    .c-theme-toggle:hover {
+        color: var(--color-text-primary);
+        background: var(--color-bg-card);
+    }
+
+    /* About badge — dark mode glass */
+    html.dark .about-badge-year,
+    html.dark .about-badge-origin {
+        background: rgba(30, 30, 30, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Footer */
+    .c-footer {
+        background-color: var(--color-bg-footer);
+        color: var(--color-text-secondary);
+        border-top: 1px solid var(--color-border);
+    }
+
+    /* Tombol utama */
+    .c-btn-primary {
+        background-color: var(--color-accent);
+        color: var(--color-accent-text);
+    }
+    .c-btn-primary:hover {
+        background-color: var(--color-accent-hover);
+    }
+
+    /* Tombol outline */
+    .c-btn-outline {
+        border: 2px solid var(--color-accent);
+        color: var(--color-accent);
+        background-color: transparent;
+    }
+    .c-btn-outline:hover {
+        background-color: var(--color-accent);
+        color: var(--color-accent-text);
+    }
+
+    /* Nav link aktif */
+    .c-nav-active {
+        color: var(--color-accent);
+        font-weight: 600;
+    }
+
+    /* Nav link biasa */
+    .c-nav-link {
+        color: var(--color-text-secondary);
+    }
+    .c-nav-link:hover {
+        color: var(--color-accent);
+    }
+
+    /* Badge cart */
+    .c-badge {
+        background-color: var(--color-accent);
+        color: var(--color-accent-text);
+    }
+
+    /* Back to top button */
+    .c-back-to-top {
+        background-color: var(--color-bg);
+        color: var(--color-accent);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Text helpers */
+    .c-text-primary {
+        color: var(--color-text-primary);
+    }
+    .c-text-secondary {
+        color: var(--color-text-secondary);
+    }
+    .c-text-muted {
+        color: var(--color-text-muted);
+    }
+    .c-text-accent {
+        color: var(--color-accent);
+    }
+
+    /* Card */
+    .c-card {
+        background-color: var(--color-bg-card);
+        border: 1px solid var(--color-border);
+        border-radius: 1rem;
+    }
+}
+
+/* ============================================================
+   LAYOUT HELPERS
+   ============================================================ */
+
+/* Wrapper hero — canvas dengan orbs warna agar glass terlihat */
+/* bungkus home — simple card */
+.bungkus_home {
+    padding: 48px;
+    background-color: #f4f4f6;
+    border-radius: 24px;
+}
+
+html.dark .bungkus_home {
+    background-color: var(--color-bg-card);
+}
+
+@media (max-width: 576px) {
+    .bungkus_home {
+        padding: 24px 20px;
+    }
+}
+
+/* ============================================================
+   SERVICES SECTION — Uniform Showcase Grid
+   ============================================================ */
+
+.svc-showcase {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 48px;
+}
+
+.svc-showcase-item {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 3/4;
+}
+
+/* Gambar wrapper */
+.svc-showcase-img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.svc-showcase-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.svc-showcase-item:hover .svc-showcase-img img {
+    transform: scale(1.08);
+}
+
+/* Gradient overlay */
+.svc-showcase-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.75) 0%,
+        rgba(0, 0, 0, 0.25) 60%,
+        transparent 85%
+    );
+    transition: background 0.5s ease;
+    z-index: 1;
+}
+
+.svc-showcase-item:hover .svc-showcase-overlay {
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.9) 0%,
+        rgba(0, 0, 0, 0.35) 60%,
+        transparent 85%
+    );
+}
+
+/* Nomor */
+.svc-showcase-num {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.5);
+    z-index: 3;
+}
+
+/* Body — bottom absolute */
+.svc-showcase-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 24px 20px;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.svc-showcase-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.2;
+    margin-bottom: 4px;
+}
+
+.svc-showcase-item:hover .svc-showcase-title {
+    transform: translateY(-2px);
+    transition: transform 0.4s ease;
+}
+
+.svc-showcase-desc {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.65);
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+        opacity 0.4s ease 0.1s,
+        transform 0.4s ease 0.1s;
+}
+
+.svc-showcase-item:hover .svc-showcase-desc {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Accent line */
+.svc-showcase-body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 20px;
+    width: 40px;
+    height: 2px;
+    background: white;
+    opacity: 0;
+    transition:
+        opacity 0.3s ease,
+        width 0.3s ease;
+}
+
+.svc-showcase-item:hover .svc-showcase-body::before {
+    opacity: 1;
+    width: 60px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .svc-showcase {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+}
+
+@media (max-width: 640px) {
+    .svc-showcase {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .svc-showcase-desc {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ============================================================
+   ABOUT SECTION
+   ============================================================ */
+
+/* Floating badge — tahun berdiri */
+.about-badge-year {
+    position: absolute;
+    bottom: -20px;
+    right: -16px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 16px 24px;
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* Floating badge — origin kopi */
+.about-badge-origin {
+    position: absolute;
+    top: 24px;
+    right: -20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-radius: 999px;
+    padding: 8px 16px;
+}
+
+@media (max-width: 1024px) {
+    .about-badge-year {
+        right: 8px;
+        bottom: -12px;
+    }
+    .about-badge-origin {
+        right: 8px;
+        top: 12px;
+    }
+}
+
+/* Label section */
+.about-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 16px;
+}
+
+/* Stats row */
+.about-stats {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 24px 0;
+    margin-bottom: 32px;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.about-stat {
+    flex: 1;
+    text-align: center;
+}
+
+.about-stat-num {
+    display: block;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--color-text-primary);
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.about-stat-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.about-stat-divider {
+    width: 1px;
+    height: 40px;
+    background-color: var(--color-border);
+    flex-shrink: 0;
+}
+
+/* CTA link */
+.about-cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    border-bottom: 2px solid var(--color-text-primary);
+    padding-bottom: 2px;
+    transition:
+        opacity 0.2s ease,
+        gap 0.2s ease;
+}
+.about-cta-link:hover {
+    opacity: 0.6;
+    gap: 12px;
+}
+
+/* ============================================================
+   HERO ANIMATIONS — selalu jalan saat page load, tidak bergantung AOS
+   ============================================================ */
+@keyframes heroFadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroFadeRight {
+    from { opacity: 0; transform: translateX(36px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+.hero-fade-up {
+    opacity: 0;
+    animation: heroFadeUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.hero-fade-right {
+    opacity: 0;
+    animation: heroFadeRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.08s forwards;
+}
+
+/* ============================================================
+   SCROLL ANIMATIONS
+   ============================================================ */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-scroll {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+        opacity 0.8s ease-out,
+        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+.animate-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.animate-scroll-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition:
+        opacity 0.85s ease-out,
+        transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+.animate-scroll-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.animate-scroll-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition:
+        opacity 0.85s ease-out,
+        transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+.animate-scroll-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.stagger-item {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+        opacity 0.7s ease-out,
+        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+.stagger-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.stagger-item:nth-child(1) {
+    transition-delay: 0.1s;
+}
+.stagger-item:nth-child(2) {
+    transition-delay: 0.2s;
+}
+.stagger-item:nth-child(3) {
+    transition-delay: 0.3s;
+}
+.stagger-item:nth-child(4) {
+    transition-delay: 0.4s;
+}
+
+/* Hover lift effect */
+.hover-lift {
+    transition:
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.4s ease-out;
+    will-change: transform, box-shadow;
+}
+.hover-lift:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+}
