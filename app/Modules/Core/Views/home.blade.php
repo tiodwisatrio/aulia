@@ -15,11 +15,11 @@
 
     {{-- Background image --}}
     @if($hero->hero_image)
-    <div class="absolute inset-0">
-        <img src="{{ asset('storage/' . $hero->hero_image) }}"
-             alt="{{ $hero->hero_title }}"
-             class="w-full h-full object-cover"
-             style="transform-origin:center; animation: heroZoom 12s ease-in-out infinite alternate;">
+    <div class="absolute inset-0"
+         style="background-image: url('{{ asset('storage/' . $hero->hero_image) }}');
+                background-size: cover;
+                background-position: center;
+                background-attachment: fixed;">
         <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.75) 100%);"></div>
     </div>
     @else
@@ -60,12 +60,6 @@
 
 </section>
 
-<style>
-@keyframes heroZoom {
-    from { transform: scale(1); }
-    to   { transform: scale(1.06); }
-}
-</style>
 
 @endif
 
