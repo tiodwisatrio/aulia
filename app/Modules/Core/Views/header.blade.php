@@ -45,6 +45,12 @@
 
             <!-- Desktop CTA -->
             <div class="hidden md:flex items-center gap-x-2 flex-shrink-0">
+                <button id="theme-toggle" aria-label="Toggle dark mode"
+                    class="flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200 hover:bg-gray-100"
+                    style="background: transparent; border: none; cursor: pointer; color: #555;">
+                    <i id="icon-sun" data-lucide="sun" class="w-4 h-4 hidden"></i>
+                    <i id="icon-moon" data-lucide="moon" class="w-4 h-4"></i>
+                </button>
                 @guest
                     <a href="{{ route('login') }}"
                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white transition-all duration-200 hover:opacity-90"
@@ -102,7 +108,14 @@
             Keranjang
             <span id="cart-badge-mobile" style="display:none; position:absolute; top:6px; left:80px; min-width:17px; height:17px; padding:0 4px; border-radius:999px; font-size:10px; font-weight:700; align-items:center; justify-content:center; background:#ef4444; color:#fff;"></span>
         </a>
-        <div class="pt-2 mt-1" style="border-top: 1px solid #f0f0f0;">
+        <div class="pt-2 mt-1 flex flex-col gap-2" style="border-top: 1px solid #f0f0f0;">
+            <button id="theme-toggle-mobile" aria-label="Toggle dark mode"
+                class="menu-link flex items-center gap-3 w-full px-4 py-2.5 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all duration-200"
+                style="background: transparent; border: none; cursor: pointer;">
+                <i id="icon-sun-mobile" data-lucide="sun" class="w-4 h-4 hidden"></i>
+                <i id="icon-moon-mobile" data-lucide="moon" class="w-4 h-4"></i>
+                <span id="theme-label-mobile">Dark Mode</span>
+            </button>
             @guest
                 <a href="{{ route('login') }}" class="menu-link flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-full text-sm font-semibold text-white transition-all duration-200" style="background:#16a34a;">Login</a>
             @else
@@ -155,4 +168,44 @@
 
     updateCartBadge();
     window.addEventListener('storage', updateCartBadge);
+
+    // Dark mode toggle
+    const PILL_BG_LIGHT = 'rgba(255,255,255,0.85)';
+    const PILL_BG_DARK  = 'rgba(20,20,20,0.85)';
+    const MOBILE_MENU_BG_DARK = 'rgba(20,20,20,0.92)';
+
+    function applyNavbarDarkStyles(isDark) {
+        const pill = document.querySelector('#navbar .flex.items-center.justify-between');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (pill) {
+            pill.style.background = isDark ? PILL_BG_DARK : PILL_BG_LIGHT;
+            pill.style.borderColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.6)';
+        }
+        if (mobileMenu) {
+            mobileMenu.style.background = isDark ? MOBILE_MENU_BG_DARK : PILL_BG_LIGHT;
+            mobileMenu.style.borderColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.6)';
+        }
+    }
+
+    function syncThemeIcons() {
+        const isDark = document.documentElement.classList.contains('dark');
+        document.getElementById('icon-sun').classList.toggle('hidden', !isDark);
+        document.getElementById('icon-moon').classList.toggle('hidden', isDark);
+        document.getElementById('icon-sun-mobile').classList.toggle('hidden', !isDark);
+        document.getElementById('icon-moon-mobile').classList.toggle('hidden', isDark);
+        document.getElementById('theme-label-mobile').textContent = isDark ? 'Light Mode' : 'Dark Mode';
+        applyNavbarDarkStyles(isDark);
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function toggleTheme() {
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('sektor21_theme', isDark ? 'dark' : 'light');
+        syncThemeIcons();
+    }
+
+    document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+    document.getElementById('theme-toggle-mobile').addEventListener('click', toggleTheme);
+
+    syncThemeIcons();
 </script>
