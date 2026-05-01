@@ -242,12 +242,12 @@
         @if($featuredProducts->count() > 0)
         @php $first = $featuredProducts->first(); $rest = $featuredProducts->skip(1); @endphp
 
-        <div class="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-4 mb-4">
+        <div class="mb-4" style="display:grid; grid-template-columns: 3fr 2fr; grid-template-rows: 260px 260px; gap: 12px;">
 
-            {{-- Featured card besar --}}
-            <div data-aos="fade-right">
+            {{-- Featured card besar kiri, span 2 baris --}}
+            <div data-aos="fade-right" style="grid-row: 1 / 3;">
                 <a href="{{ route('frontend.products.show', $first->produk_slug) }}"
-                   class="group block relative rounded-3xl overflow-hidden" style="aspect-ratio: 1/1;">
+                   class="group block relative rounded-3xl overflow-hidden w-full h-full">
                     @if($first->produk_gambar_utama)
                     <img src="{{ asset('storage/' . $first->produk_gambar_utama) }}"
                          alt="{{ $first->produk_nama }}"
@@ -270,16 +270,16 @@
                 </a>
             </div>
 
-            {{-- Grid kecil kanan --}}
-            <div class="grid grid-cols-2 gap-4">
-                @foreach($rest->take(4) as $product)
-                <div data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
-                    <x-product-card :product="$product" />
-                </div>
-                @endforeach
+            {{-- 4 card compact, masing-masing 1 cell --}}
+            @foreach($rest->take(2) as $product)
+            <div data-aos="fade-up" data-aos-delay="{{ $loop->index * 60 }}" class="h-full">
+                <x-product-card :product="$product" :compact="true" />
             </div>
+            @endforeach
 
         </div>
+
+        {{-- Mobile: stack biasa --}}
 
         <a href="{{ route('frontend.products.index') }}"
            class="sm:hidden inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest c-text-secondary mt-4">
