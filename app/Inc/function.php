@@ -74,3 +74,23 @@ if (!function_exists('displayHtml')) {
         return new \Illuminate\Support\HtmlString(sanitizeHtml($html));
     }
 }
+
+if (!function_exists('formatYen')) {
+    /**
+     * Format number to Japanese Yen currency
+     * @param float|int $amount - Amount to format
+     * @param bool $showSymbol - Show ¥ symbol (default: true)
+     * @param bool $showCode - Show JPY code (default: false)
+     * @return string
+     */
+    function formatYen($amount, $showSymbol = true, $showCode = false)
+    {
+        $formatted = number_format((int) $amount, 0, '.', ',');
+
+        if ($showCode) {
+            return "JPY {$formatted}";
+        }
+
+        return $showSymbol ? "¥{$formatted}" : $formatted;
+    }
+}

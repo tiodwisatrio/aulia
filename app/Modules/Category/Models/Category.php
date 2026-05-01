@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Modules\Post\Models\Post;
 use App\Modules\Product\Models\Product;
 use App\Modules\Team\Models\Team;
+use App\Modules\Menu\Models\Menu;
 
 
 class Category extends Model
@@ -63,6 +64,12 @@ class Category extends Model
         return $this->hasMany(Team::class, 'tim_kategori_id', 'kategori_id');
     }
 
+    public function menus(): HasMany
+    {
+        return $this->hasMany(Menu::class, 'menu_kategori_id', 'kategori_id');
+    }
+
+
     public function scopeActive($query)
     {
         return $query->where('kategori_aktif', true);
@@ -81,6 +88,11 @@ class Category extends Model
     public function scopeForProducts($query)
     {
         return $query->where('kategori_tipe', 'product');
+    }
+
+    public function scopeForMenus($query)
+    {
+        return $query->where('kategori_tipe', 'menu');
     }
 
     public function scopeByType($query, $type)

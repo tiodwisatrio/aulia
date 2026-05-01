@@ -245,6 +245,33 @@ th {
         border: 1px solid var(--color-border);
         border-radius: 1rem;
     }
+
+    /* Pill navbar nav link — adapts to dark mode */
+    .c-pill-link {
+        color: var(--color-text-secondary);
+    }
+    .c-pill-link:hover {
+        color: var(--color-text-primary);
+        background-color: var(--color-bg-card);
+    }
+
+    /* Pill navbar active link */
+    .c-pill-link-active {
+        background-color: var(--color-accent);
+        color: var(--color-accent-text);
+    }
+
+    /* Theme toggle button in pill navbar */
+    .c-pill-toggle {
+        color: var(--color-text-secondary);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+    }
+    .c-pill-toggle:hover {
+        background-color: var(--color-bg-card);
+        color: var(--color-text-primary);
+    }
 }
 
 /* ============================================================

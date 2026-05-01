@@ -5,39 +5,36 @@
 
             <!-- Logo -->
             <a href="{{ route('frontend.home') }}" class="flex items-center hover:opacity-80 transition flex-shrink-0">
-                <span class="text-lg font-bold whitespace-nowrap" style="color:#111;">{{ setting('site_name', config('app.name')) }}</span>
+                @if(setting('site_logo'))
+                    <img src="{{ asset('storage/' . setting('site_logo')) }}" alt="{{ setting('site_name', 'Logo') }}" class="h-8 w-auto object-contain rounded-full mr-2">
+                @endif
+                <span class="text-lg font-bold whitespace-nowrap" style="color: var(--color-text-primary);">{{ setting('site_name', config('app.name')) }}</span>
             </a>
 
             <!-- Desktop Nav -->
             <nav class="hidden md:flex items-center gap-x-1">
                 <a href="{{ route('frontend.home') }}"
-                   class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.home') ? 'text-white' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100' }}"
-                   @if(request()->routeIs('frontend.home')) style="background:#1a1a1a;" @endif>
+                   class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.home') ? 'c-pill-link-active' : 'c-pill-link' }}">
                    Beranda
                 </a>
                 <a href="{{ route('frontend.abouts.index') }}"
-                   class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.abouts.*') ? 'text-white' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100' }}"
-                   @if(request()->routeIs('frontend.abouts.*')) style="background:#1a1a1a;" @endif>
+                   class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.abouts.*') ? 'c-pill-link-active' : 'c-pill-link' }}">
                    Tentang Kami
                 </a>
                 <a href="{{ route('frontend.products.index') }}"
-                   class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.products.*') ? 'text-white' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100' }}"
-                   @if(request()->routeIs('frontend.products.*')) style="background:#1a1a1a;" @endif>
+                   class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.products.*') ? 'c-pill-link-active' : 'c-pill-link' }}">
                    Produk
                 </a>
                 <a href="{{ route('frontend.reels.index') }}"
-                   class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.reels.*') ? 'text-white' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100' }}"
-                   @if(request()->routeIs('frontend.reels.*')) style="background:#1a1a1a;" @endif>
+                   class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.reels.*') ? 'c-pill-link-active' : 'c-pill-link' }}">
                    Projects
                 </a>
                 <a href="{{ route('frontend.contacts.index') }}"
-                   class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.contacts*') ? 'text-white' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100' }}"
-                   @if(request()->routeIs('frontend.contacts*')) style="background:#1a1a1a;" @endif>
+                   class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.contacts*') ? 'c-pill-link-active' : 'c-pill-link' }}">
                    Kontak
                 </a>
                 <a href="{{ route('frontend.cart') }}"
-                   class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 relative {{ request()->routeIs('frontend.cart') ? 'text-white' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100' }}"
-                   @if(request()->routeIs('frontend.cart')) style="background:#1a1a1a;" @endif>
+                   class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 relative {{ request()->routeIs('frontend.cart') ? 'c-pill-link-active' : 'c-pill-link' }}">
                    Keranjang
                    <span id="cart-badge" class="c-badge" style="display:none; position:absolute; top:-4px; right:-6px; min-width:17px; height:17px; padding:0 4px; border-radius:999px; font-size:10px; font-weight:700; align-items:center; justify-content:center; background:#ef4444; color:#fff;"></span>
                 </a>
@@ -46,8 +43,7 @@
             <!-- Desktop CTA -->
             <div class="hidden md:flex items-center gap-x-2 flex-shrink-0">
                 <button id="theme-toggle" aria-label="Toggle dark mode"
-                    class="flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200 hover:bg-gray-100"
-                    style="background: transparent; border: none; cursor: pointer; color: #555;">
+                    class="c-pill-toggle flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200">
                     <i id="icon-sun" data-lucide="sun" class="w-4 h-4 hidden"></i>
                     <i id="icon-moon" data-lucide="moon" class="w-4 h-4"></i>
                 </button>
@@ -67,7 +63,7 @@
             </div>
 
             <!-- Mobile: Hamburger -->
-            <button id="mobile-menu-btn" class="flex bg-transparent md:hidden items-center justify-center w-9 h-9 rounded-full transition hover:bg-gray-100" aria-label="Toggle menu">
+            <button id="mobile-menu-btn" class="c-pill-toggle flex md:hidden items-center justify-center w-9 h-9 rounded-full transition" aria-label="Toggle menu">
                 <svg id="icon-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                 </svg>
@@ -99,19 +95,18 @@
     overflow: hidden;
 ">
     <div class="px-3 py-3 flex flex-col gap-y-1">
-        <a href="{{ route('frontend.home') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.home') ? 'text-white' : 'text-gray-700 hover:bg-gray-100' }}" @if(request()->routeIs('frontend.home')) style="background:#1a1a1a;" @endif>Beranda</a>
-        <a href="{{ route('frontend.abouts.index') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.abouts.*') ? 'text-white' : 'text-gray-700 hover:bg-gray-100' }}" @if(request()->routeIs('frontend.abouts.*')) style="background:#1a1a1a;" @endif>Tentang Kami</a>
-        <a href="{{ route('frontend.products.index') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.products.*') ? 'text-white' : 'text-gray-700 hover:bg-gray-100' }}" @if(request()->routeIs('frontend.products.*')) style="background:#1a1a1a;" @endif>Produk</a>
-        <a href="{{ route('frontend.reels.index') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.reels.*') ? 'text-white' : 'text-gray-700 hover:bg-gray-100' }}" @if(request()->routeIs('frontend.reels.*')) style="background:#1a1a1a;" @endif>Projects</a>
-        <a href="{{ route('frontend.contacts.index') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.contacts*') ? 'text-white' : 'text-gray-700 hover:bg-gray-100' }}" @if(request()->routeIs('frontend.contacts*')) style="background:#1a1a1a;" @endif>Kontak</a>
-        <a href="{{ route('frontend.cart') }}" class="menu-link relative block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.cart') ? 'text-white' : 'text-gray-700 hover:bg-gray-100' }}" @if(request()->routeIs('frontend.cart')) style="background:#1a1a1a;" @endif>
+        <a href="{{ route('frontend.home') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.home') ? 'c-pill-link-active' : 'c-pill-link' }}">Beranda</a>
+        <a href="{{ route('frontend.abouts.index') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.abouts.*') ? 'c-pill-link-active' : 'c-pill-link' }}">Tentang Kami</a>
+        <a href="{{ route('frontend.products.index') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.products.*') ? 'c-pill-link-active' : 'c-pill-link' }}">Produk</a>
+        <a href="{{ route('frontend.reels.index') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.reels.*') ? 'c-pill-link-active' : 'c-pill-link' }}">Projects</a>
+        <a href="{{ route('frontend.contacts.index') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.contacts*') ? 'c-pill-link-active' : 'c-pill-link' }}">Kontak</a>
+        <a href="{{ route('frontend.cart') }}" class="menu-link relative block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.cart') ? 'c-pill-link-active' : 'c-pill-link' }}">
             Keranjang
             <span id="cart-badge-mobile" style="display:none; position:absolute; top:6px; left:80px; min-width:17px; height:17px; padding:0 4px; border-radius:999px; font-size:10px; font-weight:700; align-items:center; justify-content:center; background:#ef4444; color:#fff;"></span>
         </a>
-        <div class="pt-2 mt-1 flex flex-col gap-2" style="border-top: 1px solid #f0f0f0;">
+        <div class="pt-2 mt-1 flex flex-col gap-2" style="border-top: 1px solid var(--color-border);">
             <button id="theme-toggle-mobile" aria-label="Toggle dark mode"
-                class="menu-link flex items-center gap-3 w-full px-4 py-2.5 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all duration-200"
-                style="background: transparent; border: none; cursor: pointer;">
+                class="c-pill-toggle menu-link flex items-center gap-3 w-full px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200">
                 <i id="icon-sun-mobile" data-lucide="sun" class="w-4 h-4 hidden"></i>
                 <i id="icon-moon-mobile" data-lucide="moon" class="w-4 h-4"></i>
                 <span id="theme-label-mobile">Dark Mode</span>

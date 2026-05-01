@@ -57,12 +57,12 @@
                     </div>
                     <div>
                         <p class="text-xs text-gray-600 font-semibold">HARGA</p>
-                        <p class="text-gray-900 font-semibold">Rp {{ number_format($product->produk_harga, 0, ',', '.') }}</p>
+                        <p class="text-gray-900 font-semibold">{{ formatYen($product->produk_harga) }}</p>
                     </div>
                     @if($product->produk_harga_diskon)
                     <div>
                         <p class="text-xs text-gray-600 font-semibold">HARGA DISKON</p>
-                        <p class="text-gray-900 font-semibold">Rp {{ number_format($product->produk_harga_diskon, 0, ',', '.') }}</p>
+                        <p class="text-gray-900 font-semibold">{{ formatYen($product->produk_harga_diskon) }}</p>
                     </div>
                     @endif
                     <div>

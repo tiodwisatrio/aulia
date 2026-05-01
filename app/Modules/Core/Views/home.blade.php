@@ -3,6 +3,8 @@
 @section('title', setting('site_name', config('app.name')))
 @section('meta_description', setting('site_description', 'Selamat datang di ' . setting('site_name', config('app.name'))))
 
+@section('no_navbar_spacer', true)
+
 @section('content')
 
 {{-- ═══════════════════════════════════════════════════════
@@ -32,7 +34,7 @@
             — {{ setting('site_name', config('app.name')) }}
         </p>
 
-        <h1 class="text-4xl md:text-6xl lg:text-7xl font-black leading-none text-white mb-6 hero-fade-up"
+        <h1 class="text-2xl md:text-4xl lg:text-6xl font-black leading-none text-white mb-6 hero-fade-up"
             style="text-shadow: 0 2px 32px rgba(0,0,0,0.4); max-width: 900px; animation-delay:0s;">
             {{ $hero->hero_title }}
         </h1>
@@ -53,10 +55,10 @@
     </div>
 
     {{-- Scroll indicator --}}
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10" style="color:rgba(255,255,255,0.5);">
+    <!-- <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10" style="color:rgba(255,255,255,0.5);">
         <span class="text-xs tracking-widest uppercase">Scroll</span>
         <div class="w-px h-12" style="background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);"></div>
-    </div>
+    </div> -->
 
 </section>
 
@@ -156,7 +158,7 @@
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-16" data-aos="fade-up">
             <div>
                 <p class="about-label mb-2">— Layanan</p>
-                <h2 class="text-4xl lg:text-6xl font-black c-text-primary leading-none">
+                <h2 class="text-2xl lg:text-4xl font-black c-text-primary leading-none">
                     {{ $headerServices->header_title ?? 'Layanan Kami' }}
                 </h2>
             </div>
@@ -227,7 +229,7 @@
         <div class="flex items-end justify-between mb-12" data-aos="fade-up">
             <div>
                 <p class="text-xs font-bold uppercase tracking-[0.3em] c-text-secondary mb-2">— Pilihan Unggulan</p>
-                <h2 class="text-4xl lg:text-6xl font-black c-text-primary leading-none">
+                <h2 class="text-2xl lg:text-4xl font-black c-text-primary leading-none">
                     {{ $headerProducts->header_title ?? 'Produk Unggulan' }}
                 </h2>
             </div>
@@ -261,7 +263,7 @@
                         <h3 class="text-2xl font-black text-white mb-1">{{ $first->produk_nama }}</h3>
                         @if($first->produk_harga)
                         <span class="text-sm font-bold" style="color:rgba(255,255,255,0.8);">
-                            Rp {{ number_format($first->produk_harga, 0, ',', '.') }}
+                            {{ formatYen($first->produk_harga) }}
                         </span>
                         @endif
                     </div>
@@ -333,7 +335,7 @@
                              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                     @else
                         <div class="w-full h-full flex items-center justify-center" style="background: var(--color-bg-card);">
-                            <span class="text-4xl font-black select-none" style="opacity: 0.08;">
+                            <span class="text-2xl font-black select-none" style="opacity: 0.08;">
                                 {{ str_pad($idx, 2, '0', STR_PAD_LEFT) }}
                             </span>
                         </div>
@@ -376,7 +378,7 @@
 <section id="our-clients" class="py-20 lg:py-28" style="border-top:1px solid var(--color-border);">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12" data-aos="fade-up">
         <p class="text-xs font-bold uppercase tracking-[0.3em] c-text-secondary mb-3">— Dipercaya Oleh</p>
-        <h2 class="text-4xl lg:text-5xl font-black c-text-primary">{{ $headerClients->header_title ?? 'Mitra Kami' }}</h2>
+        <h2 class="text-2xl lg:text-4xl font-black c-text-primary">{{ $headerClients->header_title ?? 'Mitra Kami' }}</h2>
         @if(!empty($headerClients->header_subtitle))
         <p class="text-sm c-text-secondary mt-3 max-w-lg mx-auto leading-relaxed">{{ $headerClients->header_subtitle }}</p>
         @endif

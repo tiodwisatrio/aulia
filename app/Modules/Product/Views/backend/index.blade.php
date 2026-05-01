@@ -43,7 +43,7 @@
                     <tr class="hover:bg-gray-50 transition">
                         <td class="px-4 py-3 text-sm font-medium text-gray-900">{{ $product->produk_nama }}</td>
                         <td class="px-4 py-3 text-sm text-gray-600 hidden sm:table-cell">{{ $product->category?->kategori_nama ?? '-' }}</td>
-                        <td class="px-4 py-3 text-sm font-semibold text-gray-800 whitespace-nowrap">Rp {{ number_format($product->produk_harga, 0, ',', '.') }}</td>
+                        <td class="px-4 py-3 text-sm font-semibold text-gray-800 whitespace-nowrap">{{ formatYen($product->produk_harga) }}</td>
                         <td class="px-4 py-3">
                             <span class="text-xs font-semibold px-2.5 py-1 rounded-full whitespace-nowrap
                                 {{ $product->produk_status === 'aktif' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600' }}">

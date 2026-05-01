@@ -37,7 +37,7 @@ class CategoryController extends Controller
     {
         $validated = $request->validate([
             'kategori_nama'      => 'required|string|max:255',
-            'kategori_tipe'      => 'required|in:post,product,portfolio,team,general',
+            'kategori_tipe'      => 'required|in:post,product,portfolio,team,general,menu',
             'kategori_slug'      => 'nullable|string|max:255|unique:kategori,kategori_slug',
             'kategori_deskripsi' => 'nullable|string',
             'kategori_warna'     => 'nullable|string|max:7',
@@ -69,7 +69,7 @@ class CategoryController extends Controller
     {
         $validated = $request->validate([
             'kategori_nama'      => 'required|string|max:255',
-            'kategori_tipe'      => 'required|in:post,product,portfolio,team,general',
+            'kategori_tipe'      => 'required|in:post,product,portfolio,team,general,menu',
             'kategori_slug'      => 'nullable|string|max:255|unique:kategori,kategori_slug,' . $category->kategori_id . ',kategori_id',
             'kategori_deskripsi' => 'nullable|string',
             'kategori_warna'     => 'nullable|string|max:7',
@@ -89,7 +89,7 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
-        if ($category->posts()->count() > 0 || $category->products()->count() > 0) {
+        if ($category->posts()->count() > 0 || $category->products()->count() > 0 || $category->menus()->count() > 0) {
             return redirect()->route('categories.index', ['type' => $category->kategori_tipe])
                              ->with('error', 'Tidak bisa menghapus kategori karena masih memiliki data.');
         }

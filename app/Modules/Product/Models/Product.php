@@ -52,12 +52,12 @@ class Product extends Model
 
     public function getFormattedPriceAttribute()
     {
-        return 'Rp ' . number_format($this->produk_harga, 0, ',', '.');
+        return formatYen($this->produk_harga);
     }
 
     public function getFormattedSalePriceAttribute()
     {
-        return $this->produk_harga_diskon ? 'Rp ' . number_format($this->produk_harga_diskon, 0, ',', '.') : null;
+        return $this->produk_harga_diskon ? formatYen($this->produk_harga_diskon) : null;
     }
 
     public function getIsOnSaleAttribute()
