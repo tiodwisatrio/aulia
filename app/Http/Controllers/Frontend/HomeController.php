@@ -14,6 +14,8 @@ use App\Modules\Testimonial\Models\Testimonial;
 use App\Modules\OurClient\Models\OurClient;
 use App\Modules\Reel\Models\Reel;
 use App\Modules\User\Models\User;
+use App\Modules\Menu\Models\Menu;
+use App\Modules\Category\Models\Category;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -74,6 +76,15 @@ class HomeController extends Controller
             ->limit(3)
             ->get();
 
-        return view('frontend.pages.home', compact('stats', 'heros', 'latestPosts', 'featuredProducts', 'abouts', 'services', 'ourClients', 'testimonials', 'teams', 'reels'));
+        $menuCategories = Category::with(['menus' => function ($q) {
+                $q->where('menu_status', 'aktif')->orderBy('id');
+            }])
+            ->where('kategori_tipe', 'menu')
+            ->where('kategori_aktif', true)
+            ->orderBy('kategori_urutan')
+            ->get()
+            ->filter(fn($c) => $c->menus->count() > 0);
+
+        return view('frontend.pages.home', compact('stats', 'heros', 'latestPosts', 'featuredProducts', 'abouts', 'services', 'ourClients', 'testimonials', 'teams', 'reels', 'menuCategories'));
     }
 }

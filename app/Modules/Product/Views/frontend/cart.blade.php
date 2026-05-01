@@ -38,17 +38,17 @@
                 <div class="space-y-3 text-sm mb-4 pb-4 border-b" style="border-color:var(--color-border);">
                     <div class="flex justify-between">
                         <span class="opacity-60">Subtotal</span>
-                        <span class="font-semibold" id="subtotal">Rp 0</span>
+                        <span class="font-semibold" id="subtotal">¥0</span>
                     </div>
                     <div class="flex justify-between">
                         <span class="opacity-60">Pajak (0%)</span>
-                        <span class="font-semibold" id="tax">Rp 0</span>
+                        <span class="font-semibold" id="tax">¥0</span>
                     </div>
                 </div>
 
                 <div class="flex justify-between text-lg font-bold mb-6 c-text-accent">
                     <span>Total</span>
-                    <span id="total">Rp 0</span>
+                    <span id="total">¥0</span>
                 </div>
 
                 <a href="javascript:void(0)" onclick="checkoutWhatsApp()"
@@ -112,7 +112,7 @@ function renderCart() {
                  class="w-20 h-20 object-cover rounded-lg flex-shrink-0" style="background:${cardBg};">
             <div class="flex-1">
                 <a href="/products/${item.slug}" class="font-bold text-sm hover:opacity-70 transition" style="color:${textPrimary};">${item.name}</a>
-                <p class="text-sm opacity-60 mt-1">Rp ${formatPrice(item.price)}</p>
+                <p class="text-sm opacity-60 mt-1">${formatPrice(item.price)}</p>
                 <div class="flex items-center gap-2 mt-3">
                     <button onclick="updateQty(${idx}, -1)" class="w-6 h-6 flex items-center justify-center rounded transition" style="border:1px solid ${borderColor};">
                         <i data-lucide="minus" class="w-3 h-3"></i>
@@ -124,7 +124,7 @@ function renderCart() {
                 </div>
             </div>
             <div class="text-right flex flex-col items-end">
-                <p class="font-bold text-sm">Rp ${formatPrice(item.price * item.qty)}</p>
+                <p class="font-bold text-sm">${formatPrice(item.price * item.qty)}</p>
                 <button onclick="removeFromCart(${idx})" class="opacity-30 hover:opacity-70 transition mt-8 flex items-center justify-end" title="Hapus">
                     <i data-lucide="trash-2" class="w-4 h-4"></i>
                 </button>
@@ -165,13 +165,13 @@ function updateSummary() {
     const tax = 0;
     const total = subtotal + tax;
 
-    document.getElementById('subtotal').textContent = 'Rp ' + formatPrice(subtotal);
-    document.getElementById('tax').textContent = 'Rp ' + formatPrice(tax);
-    document.getElementById('total').textContent = 'Rp ' + formatPrice(total);
+    document.getElementById('subtotal').textContent = formatPrice(subtotal);
+    document.getElementById('tax').textContent = formatPrice(tax);
+    document.getElementById('total').textContent = formatPrice(total);
 }
 
 function formatPrice(price) {
-    return Math.floor(price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return '¥' + Math.floor(price).toLocaleString('ja-JP');
 }
 
 function updateCartBadge() {
@@ -201,10 +201,10 @@ function checkoutWhatsApp() {
         return;
     }
 
-    const itemsList = cart.map(item => `• ${item.name} (${item.qty}x) - Rp ${formatPrice(item.price * item.qty)}`).join('\n');
+    const itemsList = cart.map(item => `• ${item.name} (${item.qty}x) - ${formatPrice(item.price * item.qty)}`).join('\n');
     const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
-    const message = `Halo, saya ingin memesan:\n\n${itemsList}\n\n *Total: Rp ${formatPrice(total)}*\n\nApakah produk masih tersedia?`;
+    const message = `Halo, saya ingin memesan:\n\n${itemsList}\n\n *Total: ${formatPrice(total)}*\n\nApakah produk masih tersedia?`;
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
 

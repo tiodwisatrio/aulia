@@ -17,18 +17,22 @@
                    class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.home') ? 'c-pill-link-active' : 'c-pill-link' }}">
                    Beranda
                 </a>
-                <a href="{{ route('frontend.abouts.index') }}"
+                <!-- <a href="{{ route('frontend.abouts.index') }}"
                    class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.abouts.*') ? 'c-pill-link-active' : 'c-pill-link' }}">
                    Tentang Kami
-                </a>
+                </a> -->
                 <a href="{{ route('frontend.products.index') }}"
                    class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.products.*') ? 'c-pill-link-active' : 'c-pill-link' }}">
                    Produk
                 </a>
-                <a href="{{ route('frontend.reels.index') }}"
+                <a href="{{ route('frontend.menu.index') }}"
+                   class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.menu.*') ? 'c-pill-link-active' : 'c-pill-link' }}">
+                   Menu
+                </a>
+                <!-- <a href="{{ route('frontend.reels.index') }}"
                    class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.reels.*') ? 'c-pill-link-active' : 'c-pill-link' }}">
                    Projects
-                </a>
+                </a> -->
                 <a href="{{ route('frontend.contacts.index') }}"
                    class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.contacts*') ? 'c-pill-link-active' : 'c-pill-link' }}">
                    Kontak
@@ -118,9 +122,10 @@
 ">
     <div class="px-3 py-3 flex flex-col gap-y-1">
         <a href="{{ route('frontend.home') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.home') ? 'c-pill-link-active' : 'c-pill-link' }}">Beranda</a>
-        <a href="{{ route('frontend.abouts.index') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.abouts.*') ? 'c-pill-link-active' : 'c-pill-link' }}">Tentang Kami</a>
+        <!-- <a href="{{ route('frontend.abouts.index') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.abouts.*') ? 'c-pill-link-active' : 'c-pill-link' }}">Tentang Kami</a> -->
         <a href="{{ route('frontend.products.index') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.products.*') ? 'c-pill-link-active' : 'c-pill-link' }}">Produk</a>
-        <a href="{{ route('frontend.reels.index') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.reels.*') ? 'c-pill-link-active' : 'c-pill-link' }}">Projects</a>
+        <a href="{{ route('frontend.menu.index') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.menu.*') ? 'c-pill-link-active' : 'c-pill-link' }}">Menu</a>
+        <!-- <a href="{{ route('frontend.reels.index') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.reels.*') ? 'c-pill-link-active' : 'c-pill-link' }}">Projects</a> -->
         <a href="{{ route('frontend.contacts.index') }}" class="menu-link block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.contacts*') ? 'c-pill-link-active' : 'c-pill-link' }}">Kontak</a>
         <a href="{{ route('frontend.cart') }}" class="menu-link relative block px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 {{ request()->routeIs('frontend.cart') ? 'c-pill-link-active' : 'c-pill-link' }}">
             Keranjang

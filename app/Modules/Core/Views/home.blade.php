@@ -80,28 +80,39 @@
     ])->filter(fn($s) => !empty($s['value']))->values();
 @endphp
 
-<section id="about" class="py-20 lg:py-28" style="border-top: 1px solid var(--color-border);">
+<section id="about" class="py-16 sm:py-20 lg:py-24">
     <div class="max-w-6xl mx-auto px-8 md:px-14">
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
 
-            {{-- Kiri: Gambar bersih --}}
-            <div class="relative" data-aos="fade-right">
-                <div class="overflow-hidden" style="aspect-ratio: 4/5;">
-                    @if($abouts->first()->tentang_gambar)
-                        <img src="{{ asset('storage/' . $abouts->first()->tentang_gambar) }}"
-                             alt="{{ $abouts->first()->tentang_judul }}"
-                             class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
-                    @else
-                        <div class="w-full h-full flex items-center justify-center" style="background: var(--color-bg-card);">
-                            <i data-lucide="coffee" class="w-12 h-12 opacity-10"></i>
-                        </div>
-                    @endif
+            {{-- Kiri: Gambar oval + Est --}}
+            <div class="relative flex flex-col items-start" data-aos="fade-right">
+
+                {{-- Frame oval --}}
+                <div class="relative w-full" style="max-width: 420px;">
+                    {{-- Border oval dekoratif --}}
+                    <div class="absolute inset-0 rounded-full"
+                         style="border: 1px solid var(--color-border); transform: scale(1.06); border-radius: 50%;"></div>
+
+                    {{-- Gambar oval --}}
+                    <div class="relative overflow-hidden w-full"
+                         style="aspect-ratio: 4/5; border-radius: 50%;">
+                        @if($abouts->first()->tentang_gambar)
+                            <img src="{{ asset('storage/' . $abouts->first()->tentang_gambar) }}"
+                                 alt="{{ $abouts->first()->tentang_judul }}"
+                                 class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                        @else
+                            <div class="w-full h-full flex items-center justify-center"
+                                 style="background: var(--color-bg-card);">
+                                <i data-lucide="coffee" class="w-12 h-12 opacity-10"></i>
+                            </div>
+                        @endif
+                    </div>
                 </div>
 
-                {{-- Tahun — tipis, di bawah gambar --}}
+                {{-- Est. di bawah --}}
                 @if($abouts->first()->tentang_tahun_berdiri)
-                <p class="text-xs tracking-[0.2em] uppercase c-text-secondary mt-4">
+                <p class="text-xs tracking-[0.25em] uppercase c-text-secondary mt-6">
                     Est. {{ $abouts->first()->tentang_tahun_berdiri }}
                 </p>
                 @endif
@@ -110,34 +121,45 @@
             {{-- Kanan: Konten --}}
             <div data-aos="fade-left" data-aos-delay="80">
 
-                <p class="text-xs tracking-[0.25em] uppercase c-text-secondary mb-8">— Tentang Kami</p>
+                <p class="text-xs tracking-[0.3em] uppercase c-text-secondary mb-6">— Tentang Kami</p>
 
-                <h2 class="font-bold c-text-primary leading-tight mb-6"
-                    style="font-size: clamp(1.75rem, 3.5vw, 2.75rem);">
+                <h2 class="font-black c-text-primary leading-tight mb-8"
+                    style="font-size: clamp(2rem, 4vw, 3.25rem); letter-spacing: -0.02em;">
                     {{ $abouts->first()->tentang_judul ?? ($headerAbout->header_title ?? 'Bukan Sekadar Kopi Biasa') }}
                 </h2>
 
-                <p class="text-sm leading-loose c-text-secondary mb-10" style="max-width: 400px;">
-                    {!! Str::limit(strip_tags($abouts->first()->tentang_konten), 240) !!}...
+                <p class="leading-relaxed c-text-secondary mb-10"
+                   style="font-size: 0.9375rem; max-width: 420px; line-height: 1.85;">
+                    {!! Str::limit(strip_tags($abouts->first()->tentang_konten), 260) !!}...
                 </p>
 
-                {{-- Stats: hanya angka + label, tanpa box --}}
+                {{-- Stats --}}
                 @if($aboutStats->count() > 0)
-                <div class="flex items-start gap-10 mb-10" style="border-top: 1px solid var(--color-border); padding-top: 28px;">
+                <div class="flex items-start gap-12 mb-10"
+                     style="border-top: 1px solid var(--color-border); padding-top: 32px;">
                     @foreach($aboutStats as $stat)
-                    <div data-aos="fade-up" data-aos-delay="{{ $loop->index * 70 }}">
-                        <span class="block text-3xl font-black c-text-primary leading-none mb-1">{{ $stat['value'] }}</span>
-                        <span class="block text-xs uppercase tracking-widest c-text-secondary">{{ $stat['label'] }}</span>
+                    <div data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
+                        <span class="block font-black c-text-primary leading-none mb-1.5"
+                              style="font-size: clamp(1.75rem, 3vw, 2.5rem); letter-spacing:-0.02em;"
+                              translate="no">
+                            {{ $stat['value'] }}
+                        </span>
+                        <span class="block text-[11px] uppercase tracking-[0.2em] c-text-secondary">
+                            {{ $stat['label'] }}
+                        </span>
                     </div>
                     @endforeach
                 </div>
                 @endif
 
-                <a href="{{ route('frontend.abouts.index') }}"
-                   class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest c-text-primary group">
-                    <span style="border-bottom: 1px solid currentColor; padding-bottom: 2px;">Cerita Selengkapnya</span>
-                    <i data-lucide="arrow-right" class="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1"></i>
-                </a>
+                {{-- CTA --}}
+                <!-- <a href="{{ route('frontend.abouts.index') }}"
+                   class="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] c-text-primary group transition-all duration-300">
+                    <span style="border-bottom: 1.5px solid currentColor; padding-bottom: 2px;">
+                        Cerita Selengkapnya
+                    </span>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1.5"></i>
+                </a> -->
 
             </div>
         </div>
@@ -152,61 +174,73 @@
 ═══════════════════════════════════════════════════════ --}}
 @php $headerServices = DB::table('header')->where('header_section', 'services')->first(); @endphp
 
-<section id="services" class="py-20 lg:py-32" style="border-top:1px solid var(--color-border);">
+<section id="services" class="py-16 sm:py-20 lg:py-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-16" data-aos="fade-up">
+        {{-- Header --}}
+        <div class="flex items-end justify-between mb-12" data-aos="fade-up">
             <div>
-                <p class="about-label mb-2">— Layanan</p>
+                <p class="text-xs font-bold uppercase tracking-[0.3em] c-text-secondary mb-2">— Layanan</p>
                 <h2 class="text-2xl lg:text-4xl font-black c-text-primary leading-none">
                     {{ $headerServices->header_title ?? 'Layanan Kami' }}
                 </h2>
             </div>
             @if(!empty($headerServices->header_subtitle))
-            <p class="c-text-secondary text-sm max-w-xs md:text-right leading-relaxed">{{ $headerServices->header_subtitle }}</p>
+            <p class="hidden md:block c-text-secondary text-sm max-w-xs text-right leading-relaxed opacity-60">
+                {{ $headerServices->header_subtitle }}
+            </p>
             @endif
         </div>
 
         @if($services && $services->count() > 0)
+
         <div>
             @foreach($services as $service)
-            <div class="svc-list-item group py-8 flex flex-col sm:flex-row sm:items-center gap-6 cursor-default"
+            <div class="group relative flex items-center gap-8 py-8 cursor-default"
                  style="border-top: 1px solid var(--color-border);"
-                 data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
+                 data-aos="fade-up" data-aos-delay="{{ $loop->index * 150 }}"
+                 onmouseenter="svcHover(this,true)" onmouseleave="svcHover(this,false)">
 
-                {{-- Nomor --}}
-                <span class="text-xs font-black tracking-widest c-text-secondary flex-shrink-0" style="min-width:36px;">
+                {{-- Nomor besar —— ghosted, jadi solid on hover --}}
+                <span class="svc-num flex-shrink-0 font-black c-text-primary select-none"
+                      style="font-size: clamp(2rem,4vw,3rem); letter-spacing:-0.04em; line-height:1; opacity:0.15; transition: opacity 0.4s cubic-bezier(0.22,1,0.36,1); min-width:60px;">
                     {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
                 </span>
 
-                {{-- Thumbnail kecil --}}
+                {{-- Teks --}}
+                <div class="flex-1 min-w-0">
+                    <h3 class="font-bold c-text-primary leading-tight mb-2"
+                        style="font-size: clamp(1.1rem, 2.2vw, 1.5rem);">
+                        {{ $service->layanan_nama }}
+                    </h3>
+                    @if($service->layanan_deskripsi)
+                    <p class="text-sm c-text-secondary leading-relaxed max-w-xl opacity-60">
+                        {{ Str::limit($service->layanan_deskripsi, 140) }}
+                    </p>
+                    @endif
+                </div>
+
+                {{-- Gambar —— muncul on hover di kanan --}}
                 @if($service->layanan_gambar)
-                <div class="flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden">
+                <div class="svc-img-wrap flex-shrink-0 overflow-hidden rounded-xl hidden lg:block"
+                     style="width:120px; height:90px; opacity:0; transition: opacity 0.5s cubic-bezier(0.22,1,0.36,1);">
                     <img src="{{ asset('storage/' . $service->layanan_gambar) }}"
                          alt="{{ $service->layanan_nama }}"
-                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                         class="w-full h-full object-cover"
+                         style="transform:scale(1.05);">
                 </div>
                 @endif
 
-                {{-- Nama + desc --}}
-                <div class="flex-1 min-w-0">
-                    <h3 class="text-xl lg:text-2xl font-bold c-text-primary mb-1 transition-all duration-300 group-hover:translate-x-1">
-                        {{ $service->layanan_nama }}
-                    </h3>
-                    <p class="text-sm c-text-secondary leading-relaxed max-w-lg">
-                        {{ Str::limit($service->layanan_deskripsi, 160) }}
-                    </p>
-                </div>
-
-                {{-- Arrow --}}
-                <div class="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 group-hover:translate-x-0">
-                    <i data-lucide="arrow-right" class="w-5 h-5 c-text-primary"></i>
-                </div>
+                {{-- Arrow kanan --}}
+                <i data-lucide="arrow-right"
+                   class="svc-arrow flex-shrink-0 w-4 h-4 c-text-primary hidden lg:block"
+                   style="opacity:0; transition: opacity 0.35s cubic-bezier(0.22,1,0.36,1), transform 0.35s cubic-bezier(0.22,1,0.36,1); transform: translateX(-6px);"></i>
 
             </div>
             @endforeach
             <div style="border-top: 1px solid var(--color-border);"></div>
         </div>
+
         @else
         <div class="py-20 text-center">
             <i data-lucide="settings" class="w-10 h-10 mx-auto mb-3 opacity-20"></i>
@@ -219,11 +253,153 @@
 
 
 {{-- ═══════════════════════════════════════════════════════
+    MENU — Tab kategori + card grid
+═══════════════════════════════════════════════════════ --}}
+@php
+    $menuCats = isset($menuCategories) ? $menuCategories->values() : collect();
+    if ($menuCats->isEmpty()) {
+        $allMenusRaw = \App\Modules\Menu\Models\Menu::with('category')->where('menu_status', 'aktif')->orderBy('id')->get();
+        if ($allMenusRaw->isNotEmpty()) {
+            $menuCats = $allMenusRaw->groupBy(fn($m) => optional($m->category)->kategori_nama ?? 'Lainnya')
+                ->map(fn($items, $nama) => (object)['kategori_nama' => $nama, 'menus' => $items])
+                ->values();
+        }
+    }
+    // Flatten semua menu untuk tab "Semua"
+    $allMenuItems = $menuCats->flatMap(fn($c) => collect($c->menus));
+@endphp
+@if($allMenuItems->count() > 0)
+
+<section id="menu" class="py-16 sm:py-20 lg:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {{-- Header --}}
+        <div class="flex items-end justify-between mb-10" data-aos="fade-up">
+            <div>
+                <p class="text-xs font-bold uppercase tracking-[0.3em] c-text-secondary mb-2">— Pilihan Kami</p>
+                <h2 class="text-2xl lg:text-4xl font-black c-text-primary leading-none">Menu</h2>
+            </div>
+            <a href="{{ route('frontend.menu.index') }}"
+               class="hidden sm:inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest c-text-secondary hover:c-text-primary transition-all duration-300 hover:gap-4">
+                Lihat Semua <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+        </div>
+
+        {{-- Filter Tab --}}
+        <div class="flex flex-wrap gap-2 mb-10" data-aos="fade-up" data-aos-delay="40">
+            {{-- Tab Semua --}}
+            <button onclick="filterMenu('semua')" id="menu-tab-semua"
+                    class="menu-filter-btn px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200"
+                    style="background:var(--color-text-primary);color:var(--color-bg);">
+                Semua
+            </button>
+            @foreach($menuCats as $cat)
+            <button onclick="filterMenu('{{ Str::slug($cat->kategori_nama) }}')"
+                    id="menu-tab-{{ Str::slug($cat->kategori_nama) }}"
+                    class="menu-filter-btn px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 border"
+                    style="background:transparent;color:var(--color-text-secondary);border-color:var(--color-border);">
+                {{ $cat->kategori_nama }}
+            </button>
+            @endforeach
+        </div>
+
+        {{-- Grid Menu --}}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="menu-grid">
+            @foreach($allMenuItems as $item)
+            <div class="menu-card group rounded-2xl overflow-hidden c-card cursor-pointer"
+                 data-cat="{{ Str::slug(optional($item->category)->kategori_nama ?? 'lainnya') }}"
+                 data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}"
+                 style="box-shadow: 0 2px 16px rgba(0,0,0,0.06); transform: translateY(0); transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.4s cubic-bezier(0.25,0.46,0.45,0.94); will-change: transform;"
+                 onmouseenter="this.style.transform='translateY(-6px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,0.13)'"
+                 onmouseleave="this.style.transform='translateY(0)';this.style.boxShadow='0 2px 16px rgba(0,0,0,0.06)'">
+
+                {{-- Gambar --}}
+                <div class="relative overflow-hidden" style="aspect-ratio: 3/2;">
+                    @if($item->menu_image)
+                        <img src="{{ asset("storage/{$item->menu_image}") }}"
+                             alt="{{ $item->menu_nama }}"
+                             class="w-full h-full object-cover"
+                             style="transform:scale(1); transition:transform 0.7s cubic-bezier(0.22,1,0.36,1);"
+                             onmouseenter="this.style.transform='scale(1.07)'"
+                             onmouseleave="this.style.transform='scale(1)'">
+                    @else
+                        <div class="w-full h-full flex items-center justify-center"
+                             style="background:var(--color-bg-card);">
+                            <i data-lucide="utensils" class="w-8 h-8 opacity-15"></i>
+                        </div>
+                    @endif
+
+                    {{-- Badge kategori --}}
+                    @if($item->category)
+                    <span class="absolute top-3 left-3 px-2 py-0.5 rounded-md text-[8px] font-semibold capitalize"
+                          style="background:rgba(255,255,255,0.88);backdrop-filter:blur(8px);color:#111;border:1px solid rgba(255,255,255,0.5);">
+                        {{ $item->category->kategori_nama }}
+                    </span>
+                    @endif
+                </div>
+
+                {{-- Info --}}
+                <div class="p-4">
+                    <h3 class="font-bold text-base c-text-primary leading-snug line-clamp-1 mb-1">
+                        {{ $item->menu_nama }}
+                    </h3>
+                    @if($item->menu_deskripsi)
+                    <p class="text-xs c-text-secondary line-clamp-1 opacity-70 mb-2">
+                        {{ $item->menu_deskripsi }}
+                    </p>
+                    @endif
+                    @if($item->menu_harga)
+                    <span class="text-base font-black c-text-accent" translate="no">{{ $item->formatted_price }}</span>
+                    @endif
+                </div>
+
+            </div>
+            @endforeach
+        </div>
+
+    </div>
+</section>
+
+<script>
+function svcHover(el, enter) {
+    var num = el.querySelector('.svc-num');
+    var iw  = el.querySelector('.svc-img-wrap');
+    var ar  = el.querySelector('.svc-arrow');
+    if (num) num.style.opacity = enter ? '1' : '0.15';
+    if (iw)  iw.style.opacity  = enter ? '1' : '0';
+    if (ar) {
+        ar.style.opacity   = enter ? '1' : '0';
+        ar.style.transform = enter ? 'translateX(0)' : 'translateX(-6px)';
+    }
+}
+
+function filterMenu(cat) {
+    // Update tab aktif
+    document.querySelectorAll('.menu-filter-btn').forEach(btn => {
+        const isActive = btn.id === 'menu-tab-' + cat;
+        btn.style.background  = isActive ? 'var(--color-text-primary)' : 'transparent';
+        btn.style.color       = isActive ? 'var(--color-bg)' : 'var(--color-text-secondary)';
+        btn.style.borderColor = isActive ? 'var(--color-text-primary)' : 'var(--color-border)';
+        if (isActive) btn.style.border = 'none';
+        else btn.style.border = '1px solid var(--color-border)';
+    });
+
+    // Filter card
+    document.querySelectorAll('.menu-card').forEach(card => {
+        const show = cat === 'semua' || card.dataset.cat === cat;
+        card.style.display = show ? '' : 'none';
+    });
+}
+</script>
+@endif
+
+
+{{-- ═══════════════════════════════════════════════════════
     PRODUCTS — Featured besar + grid kecil di bawah
 ═══════════════════════════════════════════════════════ --}}
 @php $headerProducts = DB::table('header')->where('header_section', 'products')->first(); @endphp
 
-<section id="products" class="py-20 lg:py-32" style="border-top:1px solid var(--color-border);">
+<section id="products" class="py-16 sm:py-20 lg:py-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div class="flex items-end justify-between mb-12" data-aos="fade-up">
@@ -262,7 +438,7 @@
                         <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:rgba(255,255,255,0.5);">Featured</p>
                         <h3 class="text-2xl font-black text-white mb-1">{{ $first->produk_nama }}</h3>
                         @if($first->produk_harga)
-                        <span class="text-sm font-bold" style="color:rgba(255,255,255,0.8);">
+                        <span class="text-sm font-bold" style="color:rgba(255,255,255,0.8);" translate="no">
                             {{ formatYen($first->produk_harga) }}
                         </span>
                         @endif
@@ -302,7 +478,7 @@
 {{-- ═══════════════════════════════════════════════════════
     PROJECTS — Masonry 2 kolom: 1 besar + grid kecil
 ═══════════════════════════════════════════════════════ --}}
-<section id="projects" class="py-16 lg:py-20" style="border-top: 1px solid var(--color-border);">
+<!-- <section id="projects" class="py-16 lg:py-20" style="border-top: 1px solid var(--color-border);">
     <div class="max-w-6xl mx-auto px-8 md:px-14">
 
         <div class="flex items-center justify-between mb-8" data-aos="fade-up">
@@ -369,13 +545,13 @@
         @endif
 
     </div>
-</section>
+</section> -->
 
 
 {{-- ═══════════════════════════════════════════════════════
     CLIENTS — Marquee strip full-width
 ═══════════════════════════════════════════════════════ --}}
-<section id="our-clients" class="py-20 lg:py-28" style="border-top:1px solid var(--color-border);">
+<!-- <section id="our-clients" class="py-20 lg:py-28" style="border-top:1px solid var(--color-border);">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12" data-aos="fade-up">
         <p class="text-xs font-bold uppercase tracking-[0.3em] c-text-secondary mb-3">— Dipercaya Oleh</p>
         <h2 class="text-2xl lg:text-4xl font-black c-text-primary">{{ $headerClients->header_title ?? 'Mitra Kami' }}</h2>

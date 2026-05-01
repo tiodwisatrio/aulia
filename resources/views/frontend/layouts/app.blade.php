@@ -118,12 +118,14 @@
     <!-- Initialize AOS & Lucide Icons -->
     <script>
         AOS.init({
-            duration: 800,
-            easing: 'ease-out-quad',
+            duration: 700,
+            easing: 'ease-out-cubic',
             once: true,
-            offset: 100,
-            delay: 0
+            offset: 60,
+            delay: 0,
+            startEvent: 'DOMContentLoaded',
         });
+        window.addEventListener('load', function() { AOS.refresh(); });
 
         lucide.createIcons();
     </script>
