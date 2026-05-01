@@ -42,6 +42,28 @@
 
             <!-- Desktop CTA -->
             <div class="hidden md:flex items-center gap-x-2 flex-shrink-0">
+                <!-- Translate Dropdown -->
+                <div class="relative" id="translate-dropdown-wrapper">
+                    <button id="translate-btn"
+                        class="c-pill-toggle flex items-center gap-1.5 px-3 h-9 rounded-full text-xs font-medium transition-all duration-200"
+                        aria-label="Translate" onclick="toggleTranslateMenu()">
+                        <span id="translate-flag" class="fi fi-id" style="width:20px;height:15px;border-radius:3px;"></span>
+                        <span id="translate-label" class="hidden sm:inline">ID</span>
+                        <svg class="w-3 h-3 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div id="translate-menu" class="hidden absolute right-0 mt-2 py-1 rounded-2xl shadow-lg z-50 min-w-[140px] translate-dropdown-panel">
+                        <button onclick="switchLang('id','fi-id','ID')" class="translate-option w-full text-left flex items-center gap-2.5 px-4 py-2 text-sm transition rounded-xl">
+                            <span class="fi fi-id" style="width:20px;height:15px;border-radius:3px;flex-shrink:0;"></span> Indonesia
+                        </button>
+                        <button onclick="switchLang('ja','fi-jp','JP')" class="translate-option w-full text-left flex items-center gap-2.5 px-4 py-2 text-sm transition rounded-xl">
+                            <span class="fi fi-jp" style="width:20px;height:15px;border-radius:3px;flex-shrink:0;"></span> 日本語
+                        </button>
+                        <button onclick="switchLang('en','fi-gb','EN')" class="translate-option w-full text-left flex items-center gap-2.5 px-4 py-2 text-sm transition rounded-xl">
+                            <span class="fi fi-gb" style="width:20px;height:15px;border-radius:3px;flex-shrink:0;"></span> English
+                        </button>
+                    </div>
+                </div>
+
                 <button id="theme-toggle" aria-label="Toggle dark mode"
                     class="c-pill-toggle flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200">
                     <i id="icon-sun" data-lucide="sun" class="w-4 h-4 hidden"></i>
@@ -105,6 +127,22 @@
             <span id="cart-badge-mobile" style="display:none; position:absolute; top:6px; left:80px; min-width:17px; height:17px; padding:0 4px; border-radius:999px; font-size:10px; font-weight:700; align-items:center; justify-content:center; background:#ef4444; color:#fff;"></span>
         </a>
         <div class="pt-2 mt-1 flex flex-col gap-2" style="border-top: 1px solid var(--color-border);">
+            <!-- Translate mobile -->
+            <div class="flex gap-2 px-1">
+                <button onclick="switchLang('id','fi-id','ID')" id="mobile-lang-id"
+                    class="translate-option-mobile flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-full text-xs font-medium transition-all duration-200 c-pill-toggle">
+                    <span class="fi fi-id" style="width:18px;height:13px;border-radius:2px;flex-shrink:0;"></span> ID
+                </button>
+                <button onclick="switchLang('ja','fi-jp','JP')" id="mobile-lang-ja"
+                    class="translate-option-mobile flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-full text-xs font-medium transition-all duration-200 c-pill-toggle">
+                    <span class="fi fi-jp" style="width:18px;height:13px;border-radius:2px;flex-shrink:0;"></span> JP
+                </button>
+                <button onclick="switchLang('en','fi-gb','EN')" id="mobile-lang-en"
+                    class="translate-option-mobile flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-full text-xs font-medium transition-all duration-200 c-pill-toggle">
+                    <span class="fi fi-gb" style="width:18px;height:13px;border-radius:2px;flex-shrink:0;"></span> EN
+                </button>
+            </div>
+
             <button id="theme-toggle-mobile" aria-label="Toggle dark mode"
                 class="c-pill-toggle menu-link flex items-center gap-3 w-full px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200">
                 <i id="icon-sun-mobile" data-lucide="sun" class="w-4 h-4 hidden"></i>
@@ -203,4 +241,144 @@
     document.getElementById('theme-toggle-mobile').addEventListener('click', toggleTheme);
 
     syncThemeIcons();
+
+    // ── Google Translate ──────────────────────────────────────────────────────
+
+    // Translate dropdown dark mode styles
+    const translateStyle = document.createElement('style');
+    translateStyle.textContent = `
+        .translate-dropdown-panel {
+            background: rgba(255,255,255,0.96);
+            border: 1px solid rgba(0,0,0,0.08);
+            backdrop-filter: blur(20px);
+            color: #111;
+            writing-mode: horizontal-tb !important;
+            direction: ltr !important;
+        }
+        .translate-option {
+            writing-mode: horizontal-tb !important;
+            direction: ltr !important;
+            white-space: nowrap !important;
+            word-break: normal !important;
+        }
+        .translate-option:hover {
+            background: rgba(0,0,0,0.06);
+        }
+        .dark .translate-dropdown-panel {
+            background: rgba(28,28,30,0.96);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #f0f0f0;
+        }
+        .dark .translate-option:hover {
+            background: rgba(255,255,255,0.08);
+        }
+        #translate-btn {
+            writing-mode: horizontal-tb !important;
+            direction: ltr !important;
+            white-space: nowrap !important;
+        }
+        .translate-option-mobile {
+            writing-mode: horizontal-tb !important;
+            direction: ltr !important;
+            white-space: nowrap !important;
+        }
+    `;
+    document.head.appendChild(translateStyle);
+
+    // Hide Google Translate default bar injected into the page
+    const gtStyle = document.createElement('style');
+    gtStyle.textContent = `
+        .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame,
+        .goog-tooltip, .goog-tooltip:hover { display: none !important; }
+        body { top: 0 !important; }
+        .skiptranslate { display: none !important; }
+    `;
+    document.head.appendChild(gtStyle);
+
+    // Init Google Translate (called by the async script callback)
+    window.googleTranslateElementInit = function () {
+        new google.translate.TranslateElement({
+            pageLanguage: 'id',
+            includedLanguages: 'id,en,ja',
+            autoDisplay: false,
+        }, 'google_translate_element');
+    };
+
+    // Hidden container required by Google Translate
+    const gtEl = document.createElement('div');
+    gtEl.id = 'google_translate_element';
+    gtEl.style.display = 'none';
+    document.body.appendChild(gtEl);
+
+    // Load GT script once
+    (function loadGTScript() {
+        if (document.querySelector('script[src*="translate.google.com"]')) return;
+        const s = document.createElement('script');
+        s.src = 'https://translate.googleapis.com/translate_a/element.js?cb=googleTranslateElementInit';
+        s.async = true;
+        document.head.appendChild(s);
+    })();
+
+    // Switch language via cookie (Google Translate reads googtrans cookie)
+    function switchLang(lang, flagClass, label) {
+        const domain = location.hostname === 'localhost' ? 'localhost' : '.' + location.hostname;
+        document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain}`;
+        document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+        if (lang !== 'id') {
+            document.cookie = `googtrans=/id/${lang}; path=/; domain=${domain}`;
+            document.cookie = `googtrans=/id/${lang}; path=/`;
+        }
+        localStorage.setItem('sektor21_lang', lang);
+        localStorage.setItem('sektor21_lang_flag', flagClass);
+        localStorage.setItem('sektor21_lang_label', label);
+        setFlagIcon(flagClass, label);
+        highlightActiveLang(lang);
+        closeTranslateMenu();
+        location.reload();
+    }
+
+    function setFlagIcon(flagClass, label) {
+        const el = document.getElementById('translate-flag');
+        el.className = 'fi ' + flagClass;
+        el.style.cssText = 'width:20px;height:15px;border-radius:3px;';
+        document.getElementById('translate-label').textContent = label;
+    }
+
+    function highlightActiveLang(lang) {
+        ['id','ja','en'].forEach(l => {
+            const el = document.getElementById('mobile-lang-' + l);
+            if (!el) return;
+            if (l === lang) {
+                el.style.background = 'var(--color-primary, #16a34a)';
+                el.style.color = '#fff';
+            } else {
+                el.style.background = '';
+                el.style.color = '';
+            }
+        });
+    }
+
+    function toggleTranslateMenu() {
+        const m = document.getElementById('translate-menu');
+        m.classList.toggle('hidden');
+    }
+    function closeTranslateMenu() {
+        document.getElementById('translate-menu').classList.add('hidden');
+    }
+    document.addEventListener('click', function(e) {
+        if (!document.getElementById('translate-dropdown-wrapper').contains(e.target)) {
+            closeTranslateMenu();
+        }
+    });
+
+    // Restore state on page load
+    (function restoreLang() {
+        const saved      = localStorage.getItem('sektor21_lang')       || 'id';
+        const flagClass  = localStorage.getItem('sektor21_lang_flag')  || 'fi-id';
+        const label      = localStorage.getItem('sektor21_lang_label') || 'ID';
+        setFlagIcon(flagClass, label);
+        highlightActiveLang(saved);
+    })();
 </script>
+<!-- Google Translate hidden container -->
+

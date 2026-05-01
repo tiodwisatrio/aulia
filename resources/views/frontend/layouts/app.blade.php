@@ -89,6 +89,9 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
+    <!-- Flag Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"/>
+
     <!-- AOS (Animate On Scroll) -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 </head>
